@@ -5,6 +5,16 @@ using ToDoListApp.Data;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+// 添加 CORS 服务
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowReactApp", policy =>
+    {
+        policy.WithOrigins("http://localhost:3000") // 允许来自 React 应用的请求
+              .AllowAnyMethod() // 允许所有 HTTP 方法 (GET, POST, PUT, DELETE 等)
+              .AllowAnyHeader(); // 允许所有请求头
+    });
+});
 
 builder.Services.AddControllers();
 builder.Services.AddDbContext<ToDoContext>(options =>
@@ -19,6 +29,9 @@ builder.Services.AddDbContext<ToDoContext>(options =>
 var app = builder.Build();
 
 app.UseRouting();
+
+//使用 CORS 必须在 UseRouting 和 UseEndpoints 之间
+app.UseCors("AllowReactApp");
 
 app.UseEndpoints(endpoints =>
 {

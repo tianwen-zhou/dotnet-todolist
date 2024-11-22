@@ -1,11 +1,13 @@
 using Microsoft.AspNetCore.Mvc;
 using ToDoListApp.Models;
 using ToDoListApp.Data;
+using Microsoft.AspNetCore.Cors;
 
 namespace ToDoListApp.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
+    [EnableCors("AllowReactApp")] // 绑定到 "AllowReactApp" 策略
     public class ToDoController : ControllerBase
     {
         private readonly ToDoContext _context;
