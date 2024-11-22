@@ -1,0 +1,12 @@
+# 忽略 bin 和 obj 目录
+bin/
+obj/
+
+# 其他常见忽略规则
+*.user
+*.suo
+*.csproj.user
+*.db
+*.log
+*.vs/
+
