@@ -50,8 +50,13 @@ namespace ToDoListApp.Controllers
             var item = _context.ToDoItems.Find(id);
             if (item == null)
                 return NotFound();
-
-            item.Title = updatedItem.Title;
+            if (updatedItem.Title != null && updatedItem.Title != "")
+            {
+                item.Title = updatedItem.Title;
+            }else
+            {
+                item.Title = item.Title;
+            }
             item.IsCompleted = updatedItem.IsCompleted;
             _context.SaveChanges();
             return NoContent();
