@@ -26,6 +26,21 @@ builder.Services.AddDbContext<ToDoContext>(options =>
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 // builder.Services.AddOpenApi();
 
+// builder.WebHost.ConfigureKestrel(options =>
+// {
+//     options.ListenAnyIP(7000, listenOptions =>
+//     {
+//         listenOptions.UseHttps(); // 自动加载开发者证书
+//     });
+// });
+
+builder.WebHost.UseUrls("http://localhost:5000");
+
+// Add Swagger services
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
+
+
 var app = builder.Build();
 
 app.UseRouting();
@@ -38,14 +53,19 @@ app.UseEndpoints(endpoints =>
     endpoints.MapControllers();
 });
 
-app.UseHttpsRedirection();
-
 // Configure the HTTP request pipeline.
 // if (app.Environment.IsDevelopment())
 // {
 //     app.MapOpenApi();
 // }
 
+// Enable middleware to serve Swagger UI and JSON
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI();
+}
+app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
